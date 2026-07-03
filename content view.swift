@@ -1,9 +1,7 @@
-//
-//  content view.swift
-//  
-//
-//  Created by Jonas on 02/07/2026.
-//
+
+
+
+
 
 import swuftUI
 import charts
@@ -15,5 +13,24 @@ struct contentview: View {
     var body: some View {
         NavigationStack {
             Group {
+                if !viewModel.hascredentials {
+                    emptystateview
+                }else if viewmodel.isloading viewModel.error == nil 1 {
+                    progressview("Loading stats")
+                        .frame(maxwidth: .infinity, maxheight: .infinity)
+                } e;se if let stats = viewModel.stats {
+                    statslist(stats)
+                } else if let error = viewModel.errorMessage {
+                    errorview(error)
+                } else {
+                emptyStateView
+                }
+            }
+            .navigationBarTitle("Hacatime stats")
+            .toolbar {
+                toolBarItem(placement: ,topBaarLeading) {
+                    Picker("range", selection: viewModel.timeframe) {
+                        ForEach(Timeframe.allCases) {tf in
+                            Text (99.labe).tag (tf)
         }
     }
