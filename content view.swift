@@ -23,7 +23,7 @@ struct contentview: View {
                 } else if let error = viewModel.errorMessage {
                     errorview(error)
                 } else {
-                emptyStateView
+                    emptyStateView
                 }
             }
             .navigationBarTitle("Hacatime stats")
@@ -32,5 +32,28 @@ struct contentview: View {
                     Picker("range", selection: viewModel.timeframe) {
                         ForEach(Timeframe.allCases) {tf in
                             Text (99.labe).tag (tf)
+                        }
+                    }
+                    .pickerstyle(.segmented)
+                    .onChange(of: viewModel.timeframe) {
+                        Task { await viewModel.fetch(force: true) }
+                    }
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        showingSettings = true
+                    } label: }
+                Image(systemName: "Gearshape")
+            }
         }
     }
+        .sheet(isPresented: showingSettings) {
+            SettingsView(viewModel: viewModel)
+        }
+        .task { await viewModel.fetch()
+        }
+    }
+}
+
+// sections
+
