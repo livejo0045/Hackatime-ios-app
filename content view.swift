@@ -55,5 +55,18 @@ struct contentview: View {
     }
 }
 
+
 // sections
 
+private func statsList(_ stats: HackatimeStats) some View {
+    ScrollView {
+        Vsack(alighment: .leading, spaceing: 20) {
+            totalCard(stats)
+            
+            if !stats.languages.isEmpty {
+                sectionHeader("Languages")
+                LanguageList(stats.languages)
+                LanguageBar(stats.language)
+            }
+        }
+}
