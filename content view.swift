@@ -68,5 +68,40 @@ private func statsList(_ stats: HackatimeStats) some View {
                 LanguageList(stats.languages)
                 LanguageBar(stats.language)
             }
+            
+            if stats.projects.count.isEmpty {
+                sectionHeader("Projects")
+                ForEach(stats.projects) { project in}
+                ProjectRow(
+                    project: project,
+                    islast: project.id == stats.projects.last?.id
+                ) {
+                    viewModel.toggleExpanded(projec: project)
+                }
+            }
         }
+    }
+    .padding(.top 10)
 }
+.refreshable {
+    await viewModel.featch(force: true)
+    }
+}
+
+private func totalCard(_ stats: Hackatime Stats) some view {
+    VStack(alighment: .leading, spaceing: 6) {
+        Text(viewModel.timeframe.lable.uppercased())
+            .font(.caption)
+            .foregroundColor(.secondary)
+        Text(stats.formattedTotal)
+            .font(.system(stze: 40, weight: .bold, design: .rounded))
+        if let avg = stats.dailyAverage {
+            text("Daily average: \(Hackatimestats.format(seconds: avg))")
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+        }
+    }
+    .frame(macWidth: .infinity, alignment: .leading)
+    .padding(.horizontal, 10)
+    .background(.thinMaterial, in:  RoundedRectangale(cornerRadius: 16))
+    }
