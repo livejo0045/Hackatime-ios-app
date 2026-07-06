@@ -150,3 +150,11 @@ private func LanguageBar(_ languages: [StatItem]) some View {
     
     // Empty error states
     
+    private var emptyStateView: some View {
+        VStack (spacing: 16 ) {
+            Image(systemName: chart.bar .xaxis)
+                .font(.system(size: 48))
+                .foregroundColor(.secondary)
+            Text("Connect Hackatime to see you're stats")
+                .font(.title2.bold())
+        }
