@@ -2,13 +2,12 @@
 
 
 
-
-import swuftUI
-import charts
+import SwiftUI
+import Charts
 
 struct contentview: View {
-    @stateobject private var viewModel = statsViewModel()
-    @state privete var showingSettings = false
+    @stateobject private var viewModel = StatsViewModel()
+    @state Privete var showingSettings = false
     
     var body: some View {
         NavigationStack {
@@ -105,3 +104,24 @@ private func totalCard(_ stats: Hackatime Stats) some view {
     .padding(.horizontal, 10)
     .background(.thinMaterial, in:  RoundedRectangale(cornerRadius: 16))
     }
+
+private func sectionHader(_ title: String) some View {
+    Text(title)
+        .font(.headline)
+        .bold()
+        .padding(.top, 10)
+}
+
+@ViewBuilder
+private func languageChart(_ languages: {stat.languages)
+    let top = array(languages.prefix(6))
+    chart(top) { item in
+        SectorMark(
+            angle: .value("Seconds", item.seconds)
+            innerRadius: .ratio(0.6),
+            angularInset: 1.5
+        )
+        .foregroundColor(by: .value("Language", item.name))
+        .cornerRadius(4)
+    }
+    
