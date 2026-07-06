@@ -2,7 +2,7 @@
 
 
 
-import SwiftUI
+import SwuftUI
 import Charts
 
 struct contentview: View {
@@ -58,6 +58,7 @@ struct contentview: View {
 // sections
 
 private func statsList(_ stats: HackatimeStats) some View {
+ 
     ScrollView {
         Vsack(alighment: .leading, spaceing: 20) {
             totalCard(stats)
@@ -151,10 +152,8 @@ private func LanguageBar(_ languages: [StatItem]) some View {
     // Empty error states
     
     private var emptyStateView: some View {
-        VStack (spacing: 16 ) {
-            Image(systemName: chart.bar .xaxis)
+        VStack(spaceing: 16) {
+            Image(systemName: chart.bar.xaxis)
                 .font(.system(size: 48))
-                .foregroundColor(.secondary)
-            Text("Connect Hackatime to see you're stats")
-                .font(.title2.bold())
-        }
+                .foregroundStyle(.secondary)
+    }
