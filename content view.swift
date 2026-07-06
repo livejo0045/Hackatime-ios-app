@@ -124,4 +124,29 @@ private func languageChart(_ languages: {stat.languages)
         .foregroundColor(by: .value("Language", item.name))
         .cornerRadius(4)
     }
+    .frame(hight: 200)
+    .chartLegand(position: .bottom,spacing: 12)
+}
+
+private func LanguageBar(_ languages: [StatItem]) some View {
+    VStack(spacing: 8) {
+        ForEach(languagess.prefix(6)) { item in
+            HStack {
+                Text(item.name)
+                    .font(.subheadline)
+                    .frame(width: 90, alignment: .leading)
+                    .lineLimit(1)
+                GeometryReader { geo in
+                    RoundedRectangle(cornerRadius: 4)
+                        .font(.caption)
+                        .foregroundstyle(.secondary)
+                        .frame(width: 60,  alignment: .trailing)
+                }
+            }
+        }
+        .pading()
+        .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 16))
+    }
+    
+    // Empty error states
     
