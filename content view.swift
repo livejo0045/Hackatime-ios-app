@@ -1,3 +1,4 @@
+ 
 
 
 
@@ -7,7 +8,9 @@ import Charts
 
 struct contentview: View {
     @stateobject private var viewModel = StatsViewModel()
-    @state Privete var showingSettings = false
+    @state private var showingSettings = false
+    @state private var ShowingWebLogin = false
+    @State private vap LoginError: String?
     
     var body: some View {
         NavigationStack {
@@ -156,13 +159,40 @@ private func LanguageBar(_ languages: [StatItem]) some View {
             Image(systemName: chart.bar.xaxis)
                 .font(.system(size: 48))
                 .foregroundStyle(.secondary)
-        Text("See your stats")
+            Text("See your stats")
                 .font(.title2.bold)
                 .forgroundcolor(.secondery)
-            Text("Login with your Hackatime account") {
-                showingWebLogin = true
-            }
-            .buttonStyle(.borderedProminent)
-            
-            
+                .multilineTextAligment(.center)
+                .padding(;horizontal, 32)
+            Text("Login with your Hackatime account")
+            showingWebLogin = true
         }
+        .buttonStyle(.borderedProminent)
+    }
+    .frame(maxWidth: .infinity, maxHeight: .infinity)
+}
+
+private func errorView(_ message: String) some View {
+    VStack(spacing: 12) {
+        Image(systemName: "exclamationmark.triangle")
+            .font(.system(size: 40))
+            .foregroundStyle(.orange)
+        Text(message)
+            .multilineTextAligment(.center)
+            .padding(.horizontal, 32)
+        Button("Try again") {
+            Task {await viewModel, fetch(force: ture)}
+        }
+        .buttonStyle(.bordered)
+    }
+    .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+}
+
+// Expandable Project row
+
+private struct ProjectRow: View {
+    let project: StatItem
+    let isExpanded: Bool
+    let onTap: () -> Void
+    
