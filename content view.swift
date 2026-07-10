@@ -156,4 +156,13 @@ private func LanguageBar(_ languages: [StatItem]) some View {
             Image(systemName: chart.bar.xaxis)
                 .font(.system(size: 48))
                 .foregroundStyle(.secondary)
-    }
+        Text("See your stats")
+                .font(.title2.bold)
+                .forgroundcolor(.secondery)
+            Text("Login with your Hackatime account") {
+                showingWebLogin = true
+            }
+            .buttonStyle(.borderedProminent)
+            
+            
+        }
