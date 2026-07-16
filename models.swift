@@ -17,5 +17,6 @@ struct HackatimeStats: Codable {
     let editors: [StatItem]
     
     enum CodingKeys: String, CodingKey {
-        case totalSconds = "total_ "
+        case totalSconds = "total_seconds"
+        case totalMinutes= "total_minutes"
     }
