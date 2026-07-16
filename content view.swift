@@ -23,7 +23,7 @@ struct ContentView: View {
                     emptyStateView
                 }
             }
-            .navigationTitle("Hackatime stats")
+            .navigationTitle("Hackatime")
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Picker("Range", selection: $viewModel.timeframe) {
