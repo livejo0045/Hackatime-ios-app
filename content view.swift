@@ -1,59 +1,55 @@
- 
 
 
-
-
-import SwuftUI
+import SwiftUI
 import Charts
 
-struct contentview: View {
-    @stateobject private var viewModel = StatsViewModel()
-    @state private var showingSettings = false
-    @state private var ShowingWebLogin = false
-    @State private vap LoginError: String?
+struct ContentView: View {
+    @StateObject private var viewModel = StatsViewModel()
+    @State private var showingSettings = false
+    @State private var showingWebLogin = false
+    @State private var loginError: String?
     
     var body: some View {
         NavigationStack {
             Group {
-                if !viewModel.hascredentials {
-                    emptystateview
-                }else if viewmodel.isloading viewModel.error == nil 1 {
-                    progressview("Loading stats")
-                        .frame(maxwidth: .infinity, maxheight: .infinity)
-                } e;se if let stats = viewModel.stats {
-                    statslist(stats)
+                if !viewModel.hasCredentials {
+                    emptyStateView
+                } else if viewModel.isLoading && viewModel.errorMessage == nil {
+                    ProgressView("Loading stats")
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                } else if let stats = viewModel.stats {
+                    statsList(stats)
                 } else if let error = viewModel.errorMessage {
-                    errorview(error)
+                    errorView(error)
                 } else {
                     emptyStateView
                 }
             }
-            .navigationBarTitle("Hacatime stats")
+            .navigationTitle("Hackatime stats")
             .toolbar {
-                toolBarItem(placement: ,topBaarLeading) {
-                    Picker("range", selection: viewModel.timeframe) {
-                        ForEach(Timeframe.allCases) {tf in
-                            Text (99.labe).tag (tf)
+                ToolbarItem(placement: .topBarLeading) {
+                    Picker("Range", selection: $ viewModel.timeframe) {
+                        ForEach(Timeframe.allCases, id: \.self) {tf in
+                            Text (tf.labe).tag(tf)
                         }
                     }
-                    .pickerstyle(.segmented)
-                    .onChange(of: viewModel.timeframe) {
-                        Task { await viewModel.fetch(force: true) }
-                    }
+                    .onChange(of: viewModel.timeframe)
+                    Task { await viewModel.fetch(force: true) }
                 }
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        showingSettings = true
-                    } label: }
-                Image(systemName: "Gearshape")
+            }
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    showingSettings = true
+                } label: {
+                    Image(systemName: "Gearshape")
+                }
             }
         }
-    }
         .sheet(isPresented: showingSettings) {
             SettingsView(viewModel: viewModel)
         }
-        .task { await viewModel.fetch()
-        }
+        .task {
+            awwait viewModel.fetch()
     }
 }
 
