@@ -8,7 +8,7 @@ struct ContentView: View {
     @State private var showingSettings = false
     @State private var showingWebLogin = false
     @State private var loginError: String?
-    
+}
     var body: some View {
         NavigationStack {
             Group {
@@ -28,72 +28,73 @@ struct ContentView: View {
             .navigationTitle("Hackatime stats")
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    Picker("Range", selection: $ viewModel.timeframe) {
+                    Picker("Range", selection: $viewModel.timeframe) {
                         ForEach(Timeframe.allCases, id: \.self) {tf in
-                            Text (tf.labe).tag(tf)
+                            Text (tf.label).tag(tf)
                         }
                     }
-                    .onChange(of: viewModel.timeframe)
+                    .onChange(of: viewModel.timeframe) { _ in
                     Task { await viewModel.fetch(force: true) }
                 }
             }
-            ToolbarItem(placement: .topBarTrailing) {
+            ToolbarItem(placement: .topBarTrailing)
                 Button {
                     showingSettings = true
                 } label: {
-                    Image(systemName: "Gearshape")
-                }
+                    Image(systemName: "gearshape")                }
             }
         }
-        .sheet(isPresented: showingSettings) {
+        .sheet(isPresented: $showingSettings) {
             SettingsView(viewModel: viewModel)
         }
         .task {
-            awwait viewModel.fetch()
+            await viewModel.fetch()
     }
 }
 
 
 // sections
 
-private func statsList(_ stats: HackatimeStats) some View {
+private func statsList(_ stats: HackatimeStats) -> some View {
  
     ScrollView {
-        Vsack(alighment: .leading, spaceing: 20) {
+        Vsack(alignment: .leading, spacing: 20) {
             totalCard(stats)
             
             if !stats.languages.isEmpty {
                 sectionHeader("Languages")
                 LanguageList(stats.languages)
-                LanguageBar(stats.language)
+                LanguageBar(stats.languages)
             }
             
-            if stats.projects.count.isEmpty {
+            if !stats.projects.isEmpty
                 sectionHeader("Projects")
                 ForEach(stats.projects) { project in}
                 ProjectRow(
                     project: project,
-                    islast: project.id == stats.projects.last?.id
-                ) {
+                    isExpanded: viewModel.isExpanded(project) // or in your state
+                    onTap: { viewModel.toggleExpanded(project: project) }
+                )
+            {
                     viewModel.toggleExpanded(projec: project)
                 }
             }
         }
     }
-    .padding(.top 10)
+    .padding(.top, 10)
 }
 .refreshable {
     await viewModel.featch(force: true)
     }
 }
 
-private func totalCard(_ stats: Hackatime Stats) some view {
-    VStack(alighment: .leading, spaceing: 6) {
+private func totalCard(_ stats: HackatimeStats) -> some view {
+    VStack(alignment: .leading, spacing: 6)
         Text(viewModel.timeframe.lable.uppercased())
             .font(.caption)
             .foregroundColor(.secondary)
         Text(stats.formattedTotal)
-            .font(.system(stze: 40, weight: .bold, design: .rounded))
+        .font(.system(size: 40, weight: .bold, design: .rounded))
         if let avg = stats.dailyAverage {
             text("Daily average: \(Hackatimestats.format(seconds: avg))")
                 .font(.subheadline)
@@ -239,3 +240,4 @@ private struct ProjectRow: View {
 #Preview {
     ContentView()
 }
+
