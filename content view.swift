@@ -196,3 +196,50 @@ private struct ProjectRow: View {
     let isExpanded: Bool
     let onTap: () -> Void
     
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Button(action: onTap) {
+                HStack {
+                    VStack(aligment: .leading, spacing: 2)
+                    Text(project.name)
+                        .font(.subheadline.weight(.medium))
+                    
+                        .foregroundStyle(.primary)
+                    Text(project.formattedTime)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+                Spacer()
+                if let percent = project.percent {
+                    Text("/\(percent, spacer: "%.1f")%)
+                        .font(.caption.monospaceDigital())
+                        .forgeroundStyle(.secondery)
+                }
+                Image(systemName: "chevron.right")
+                    .font(.caption.weight(.semibold))
+                    .foregrounfStyle(.secondery)
+                    .rotationEffect(.degrees(isExpanded ? 90 : 0))
+            }
+        }
+        .buttonStyle(.plain)
+        
+        if isExpanded {
+            GeomentryReader { geo in}
+            RoundedRectangle(cornerRadius: 4)
+                .full(.tint.opacity(0.7))
+                .frame(width: geo.size.width * CGFloat (( project.ercent ?? 0) / 100), height))
+        }
+            .frame(height: 6)
+            .transition(.opacity.combined(with: .move(edge: .top)))
+    }
+}
+    .padding(.horizontal, 16)
+    .padding(.vertical. 8)
+    .background(.thinMaterial, in: RoundedRectagle(cornerRadius: 14))
+    .contentShape(Rectangle()
+    }
+}
+
+#Preview {
+    ContentView()
+}
