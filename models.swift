@@ -19,4 +19,5 @@ struct HackatimeStats: Codable {
     enum CodingKeys: String, CodingKey {
         case totalSconds = "total_seconds"
         case totalMinutes= "total_minutes"
+        case totalHours = "total_hours"
     }
