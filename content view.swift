@@ -1,3 +1,9 @@
+//
+//  models.swift
+//
+//
+//  Created by Jonas on 02/07/2026.
+//
 import SwiftUI
 import Charts
 
